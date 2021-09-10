@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import ReactClock from './ReactClock';
 
 const App = () => {
     const [count, setCount] = useState(0);
@@ -25,10 +30,20 @@ const App = () => {
     }
 
     const handleBack = () => {
-        let color = "limegreen";
+        let color = "rgb(212, 214, 65)";
         setColor(color);
         let name = "Ouch!🙃"
         setText(name)
+    }
+
+  const  handleDecrement = () =>{
+        if(count > 0){
+            setCount(count - 1)
+        }
+        else if( count === 0){
+            alert('Sorry, Zero Limit Reached')
+            setCount(0)
+        }
     }
 
     let currentTime = new Date().toLocaleTimeString();
@@ -118,15 +133,26 @@ const App = () => {
   
 
     return (
+        <>
         <div className="counter_div" style={{ backgroundColor: color }}>
+        <ReactClock/>
 
             <h1>{time}</h1>
+            
             {/* <button className="button" onClick={updatedTime} >get time</button> */}
-            <h1>{count}</h1>
-            <button className="button" onClick={() => setCount(count + 1)}>Click me</button>
+         
+          <h1 style={{backgroundColor: 'white', width: '40%',margin: '0 auto' ,marginBottom: '10px'}}>{count}</h1>
+          
+          <Tooltip title="Add" aria-label="add">
+            <Button variant="contained" className="button_green" onClick={() => setCount(count + 1)} ><AddIcon/>
+            </Button>
+            </Tooltip>
+            <Tooltip title="delete" aria-label="delete">
+            <Button variant="contained"  className="button_red" onClick={handleDecrement}><DeleteIcon/></Button>
+            </Tooltip>
 
             <div style={{ marginTop: '20px' }}>
-                <button className="button" onClick={handleChange} onDoubleClick={handleBack}>{text}</button>
+                <Button variant="contained" color="secondary" onClick={handleChange} onDoubleClick={handleBack}>{text}</Button>
             </div>
 
             <div style={{ marginTop: '20px' }}>
@@ -153,12 +179,14 @@ const App = () => {
                     <input type="number" placeholder="Enter Your Mobile Number" onChange={inputEvent}
                         value={name.password} name="password" /><br />
 
-                    <button type="submit" className="button" >Submit👌</button>
+                    <Button type="submit" variant="contained" color="secondary" >Submit👌</Button>
                 </form>
             </div>
 
 
         </div>
+      
+        </>
     );
 };
 
